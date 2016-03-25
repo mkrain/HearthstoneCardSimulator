@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using SimpleInjector;
 using WebTests.Models;
 using WebTests.Repository;
 using WebTests.Services;
-using Console = Colorful.Console;
 
 namespace WebTests
 {
@@ -71,14 +69,7 @@ namespace WebTests
                               .ForMember(d => d.IsGoodResult, opt => opt.Ignore());
                     });
 
-            try
-            {
-                mapperConfig.AssertConfigurationIsValid();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            mapperConfig.AssertConfigurationIsValid();
 
             return mapperConfig.CreateMapper();
         }

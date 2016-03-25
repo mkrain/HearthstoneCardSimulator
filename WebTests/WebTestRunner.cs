@@ -147,29 +147,22 @@ namespace WebTests
                     Thread.Sleep(delay);
                 }
 
-                if(//(options.EnableMin && score < options.MinScore) || 
-                (options.EnableMax && score >= options.MaxScore))
+                if((!options.EnableMin || score > options.MinScore) 
+                && (!options.EnableMax || score < options.MaxScore))
                 {
-                    object[] fragments = { score.ToString(), runs.ToString() };
-
-                    Console.WriteLineFormatted("Found score: {0}, in {1} runs", Color.Green, Color.White, fragments);
-                    Console.WriteLine();
-                    Console.WriteLine("Saving found pack...");
-
-                    //SaveRunResult(runResult, options);
-                    Console.WriteLine("Press enter to contine, any other key to exit.");
-                    Console.ReadLine();
-
-                    //var shouldContinue = Console.ReadLine();
-
-                    //if(string.IsNullOrEmpty(shouldContinue))
-                    //{
-                    //    continue;
-                    //}
-
-                    //_driver.Quit();
-                    //return;
+                    continue;
                 }
+
+                object[] fragments = { score.ToString(), runs.ToString() };
+
+                Console.WriteLineFormatted("Found score: {0}, in {1} runs", Color.Green, Color.White, fragments);
+                Console.WriteLine();
+                Console.WriteLine("Saving found pack...");
+
+                SaveRunResult(runResult, options);
+
+                Console.WriteLine("Press enter to contine, any other key to exit.");
+                Console.ReadLine();
             }
         }
 

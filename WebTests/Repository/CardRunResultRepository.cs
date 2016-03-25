@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DBreeze;
 using WebTests.Models;
-//using CardRunResultStore = DBreeze.DataTypes.DbMJSON<WebTests.Models.CardRunResult>;
 
 namespace WebTests.Repository
 {
@@ -50,18 +49,7 @@ namespace WebTests.Repository
 
             return OperationResult.Add;
         }
-
-        public IEnumerable<CardRunResult> GetCardRunResults()
-        {
-            using(var trans = _dbEngine.GetTransaction())
-            {
-                var records =
-                    from rows in trans.SelectForward<long, CardRunResult>(TABLE_NAME)
-                    select rows.Value;
-                return records;
-            }
-        }
-
+        
         public void ExportRecords(Action<IEnumerable<CardRunResult>> exporter)
         {
             using(var trans = _dbEngine.GetTransaction())

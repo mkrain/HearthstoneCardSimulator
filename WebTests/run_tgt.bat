@@ -1,4 +1,4 @@
-.\bin\Release\WebTests.exe --url=http://www.hearthpwn.com/packs/simulator/2-hearthstone-tgt -r -m --min=56 -e --max=100000 --delay=2250 --user=mkrain@hotmail.com --password=3v4aC1Vseo31y9qp --cardSet=Tgt
+.\bin\Release\WebTests.exe --url=http://www.hearthpwn.com/packs/simulator/2-hearthstone-tgt -r -m --min=56 -e --max=100000 --delay=2250 --user={userName} --password={password} --cardSet=Tgt
 
 ::-r write csv file
 ::-b leader board enabled
@@ -15,4 +15,3 @@
 ::--export export the dabase to csv on exit
 ::--exportFileName name of the csv file exported
 ::--cardSet card set to tag each card with values: Tgt, Wild, None (Tgt is the default)
-::WebTests.exe --min=62 --max=80000 --url=http://www.hearthpwn.com/packs/simulator/2-hearthstone-tgt -m -e -b --delay=2250 --user=mkrain@hotmail.com --password=3v4aC1Vseo31y9qpn

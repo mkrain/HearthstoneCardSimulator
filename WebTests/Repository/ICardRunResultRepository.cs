@@ -8,7 +8,6 @@ namespace WebTests.Repository
     {
         OperationResult Add(CardRunResult cardRunResult);
         OperationResult Add(IEnumerable<CardRunResult> cardRunResult);
-        IEnumerable<CardRunResult> GetCardRunResults();
         void ExportRecords(Action<IEnumerable<CardRunResult>> exporter);
     }
 
