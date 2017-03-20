@@ -39,7 +39,9 @@ namespace WebTests
             _driver = new ChromeDriver();
             _driver.Manage().Window.Size = new Size {Height = 450, Width = 1100};
             _jsExecutor = (IJavaScriptExecutor)_driver;
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+
+            Console.WriteLine("Setting wait time to: 25 seconds.");
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
         static void Main(string[] args)
@@ -60,6 +62,12 @@ namespace WebTests
 
             Console.WriteLine("Checking for exiting records to import...");
             fileService.MergeExistingRunResults();
+
+            _driver.Navigate().GoToUrl(options.LoginUrl);
+
+            DisplayInformation();
+
+            DismissTermsOfService();
 
             Login(options);
 
@@ -166,21 +174,64 @@ namespace WebTests
             }
         }
 
+        private static void DisplayInformation()
+        {
+            var availableSets = 
+                string.Join(",", Enum.GetNames(typeof(CardSet))
+                      .Except(new List<string> { "None" }));
+            Console.WriteLine("Available Card Sets ->");
+            Console.WriteLine("\t" + availableSets);
+        }
+
+        private static void DismissTermsOfService()
+        {
+            try
+            {
+                var tosElement = _driver.FindElement(By.Id("tos-banner-dismiss"));
+                tosElement.Click();
+            }
+            catch(NoSuchElementException noneException)
+            {
+                Console.WriteLine("Did not find the terms of service dialolg, skipping.");
+            }
+        }
+
         private static void Login(Options options)
         {
-            _driver.Navigate().GoToUrl(options.LoginUrl);
+            Console.WriteLine("Attempting to login.");
 
             var loginElement = _driver.FindElement(By.Id("login-link"));
 
             loginElement.Click();
 
+            //This is the new login, which allows for hearthpwn and twitch linking
+            try
+            {
+                //Click the curse link
+                var curoseLoginElement = _driver.FindElement(By.CssSelector("a[href*='/curse-login']"));
+                curoseLoginElement.Click();
+
+                Console.WriteLine("Curse login selected.");
+            }
+            catch(NoSuchElementException noneException)
+            {
+                Console.WriteLine("A login page was not found.");
+                return;
+            }
+
             var userNameElement = _driver.FindElement(By.Id("field-username"));
             var passwordElement = _driver.FindElement(By.Id("field-loginFormPassword"));
-            var loginButtonElement = _driver.FindElement(By.CssSelector("input[type='submit'].cta-button"));
+            //The class names can be left of as this is currently the only button with submit on the page.
+            //Future version will move the selectors to a file so they can be changed dynamically.
+            var loginButtonElement = _driver.FindElement(By.CssSelector("button[type='submit'].u-button.u-button-z"));
 
+            Console.WriteLine("Setting username.");
             userNameElement.SendKeys(options.UserName);
+
+            Console.WriteLine("Setting password.");
             passwordElement.SendKeys(options.Password);
 
+            Console.WriteLine("Logging in.");
             loginButtonElement.Click();
         }
 

@@ -230,3 +230,10 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+*_DBreeze*
+*_DBreeze*.rhp
+*_DBreeze*.rol
+/WebTests/scripts/db/cards
+/WebTests/data
+/WebTests/scripts/data

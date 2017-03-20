@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using ProtoBuf;
 
 namespace WebTests.Models
@@ -79,7 +80,13 @@ namespace WebTests.Models
     public enum CardSet
     {
         None = 0,
+        [Description("The Grand Tournament")]
         Tgt,
-        Wild
+        [Description("Classic")]
+        Wild,
+        [Description("Old Gods")]
+        OldGods,
+        [Description("Mean Streets of Gadgetzan")]
+        Msog
     }
 }
